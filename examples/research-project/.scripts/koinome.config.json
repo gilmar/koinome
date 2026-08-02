@@ -1,7 +1,7 @@
 {
   "_comment": "Single source of truth for this corpus. The validator, folder bootstrap, and MOC generator all read this file. Created from the Koinome template; edit and re-run bootstrap.sh to adapt. Keep type/status closed; they are the retrieval contract agents rely on.",
   "name": "cell-count-ml",
-  "created": "2026-07-12",
+  "created": "2026-08-02",
   "domains": {
     "10-literature": "literature",
     "20-experiments": "experiments"
@@ -30,6 +30,11 @@
   ],
   "vocab": {
     "type": [
+      "decision",
+      "claim",
+      "state",
+      "policy",
+      "instruction",
       "project-doc",
       "governance-finding",
       "quality-log",
@@ -43,12 +48,7 @@
       "log",
       "source",
       "entity",
-      "concept",
-      "decision",
-      "claim",
-      "state",
-      "policy",
-      "instruction"
+      "concept"
     ],
     "status": [
       "active",
@@ -60,6 +60,14 @@
       "proposed"
     ]
   },
+  "v0_record_types": [
+    "decision",
+    "claim",
+    "state",
+    "policy",
+    "instruction",
+    "source"
+  ],
   "min_summary_len": 40,
   "skip_dirs": [
     ".git",
@@ -74,13 +82,5 @@
     "90-templates",
     "99-archive"
   ],
-  "template_version": "0.0.0",
-  "v0_record_types": [
-    "decision",
-    "claim",
-    "state",
-    "policy",
-    "instruction",
-    "source"
-  ]
+  "template_version": "0.0.0"
 }

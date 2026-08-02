@@ -15,6 +15,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from koinome.corpus_identity import (  # noqa: E402
+    corpus_manifest_path,
+    dump_identity_yaml,
+    load_identity_manifest,
+)
 from tests.helpers import (  # noqa: E402
     gen_mocs,
     init_git_repo,
@@ -44,6 +49,26 @@ def _commit(dest: Path, message: str) -> None:
         raise RuntimeError(f"git commit failed: {result.stdout}\n{result.stderr}")
 
 
+def _fresh_scaffold(dest: Path, *, name: str, domains: list[str]) -> None:
+    """Scaffold `dest` from scratch, preserving durable corpus identity.
+
+    `corpus_id` and `created_at` in koinome.corpus.yaml are durable facts about a
+    corpus, not build artifacts. Wiping and regenerating them on every rebuild
+    churns the reference corpora and quietly teaches that identity is disposable,
+    so reuse the committed values when a manifest is already present.
+    """
+    preserved = load_identity_manifest(dest) if corpus_manifest_path(dest).is_file() else None
+    if dest.exists():
+        shutil.rmtree(dest)
+    scaffold_corpus(dest, name=name, domains=domains)
+    if preserved:
+        doc = load_identity_manifest(dest)
+        for field in ("corpus_id", "created_at"):
+            if field in preserved:
+                doc[field] = preserved[field]
+        corpus_manifest_path(dest).write_text(dump_identity_yaml(doc), encoding="utf-8")
+
+
 def _finalize(dest: Path, *, git_history: bool = True) -> None:
     gen_mocs(dest)
     validation = validate_corpus(dest)
@@ -63,9 +88,7 @@ def _finalize(dest: Path, *, git_history: bool = True) -> None:
 
 
 def build_software_project(dest: Path) -> None:
-    if dest.exists():
-        shutil.rmtree(dest)
-    scaffold_corpus(
+    _fresh_scaffold(
         dest,
         name="payments-platform",
         domains=["10-engineering=engineering", "20-product=product"],
@@ -224,9 +247,7 @@ def build_software_project(dest: Path) -> None:
 
 
 def build_consulting_engagement(dest: Path) -> None:
-    if dest.exists():
-        shutil.rmtree(dest)
-    scaffold_corpus(
+    _fresh_scaffold(
         dest,
         name="northwind-engagement",
         domains=["10-engagement=engagement", "20-client=client"],
@@ -379,9 +400,7 @@ def build_consulting_engagement(dest: Path) -> None:
 
 
 def build_research_project(dest: Path) -> None:
-    if dest.exists():
-        shutil.rmtree(dest)
-    scaffold_corpus(
+    _fresh_scaffold(
         dest,
         name="cell-count-ml",
         domains=["10-literature=literature", "20-experiments=experiments"],
