@@ -32,6 +32,9 @@ Published in error before the repository reset source versions to `0.0.0`. Not a
 - Published [docs/STRATEGY.md](docs/STRATEGY.md); realigned README, comparisons, usage, evaluation, and governance ([SECURITY.md](SECURITY.md)).
 - `koinome init` as an alias for `koinome new` (strategy demo naming).
 - Removed legacy on-disk migration paths, one-off transform scripts, and `docs/MIGRATION.md`.
+- **Fixed:** MOC freshness no longer depends on the calendar. `gen_mocs.py` stamped `created`/`updated` with today's date on every run and never read existing frontmatter back, so `koinome check` failed on any corpus older than a day even when its content was unchanged. The generator now preserves an existing `created` and moves `updated` only when the rest of the MOC changes. Existing corpora pick this up through `koinome upgrade` (it replaces `.scripts/gen_mocs.py`, backing up your copy, and regenerates MOCs). (template tooling)
+- Made `koinome/template/.scripts/pre-commit` tracked-executable (`100755`) to match the materialized corpus copies; the installed hook is unchanged (`bootstrap.sh` still `chmod +x`es `.git/hooks/pre-commit`).
+- Added `.github/workflows/examples-check.yml`: runs `koinome check` against the committed reference corpora — without rebuilding — on pull requests and on a daily schedule, catching clock-dependent generator drift that a same-day build-and-check cannot.
 
 Reliability and release-hardening work on `master` after the version reset:
 
