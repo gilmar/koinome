@@ -5,7 +5,7 @@
 **Status:** Public
 **Version:** 1
 **Author:** Gilmar Souza
-**Last updated:** 12 July 2026
+**Last updated:** 1 August 2026
 
 Koinome is a solo, part-time, free and open-source project. This document is its strategy, published in the open because a project about inspectable knowledge should have an inspectable plan.
 
@@ -207,17 +207,17 @@ Specifications can be retracted and improved cheaply. Shipped operations cannot,
 
 ## 11. Roadmap: the next twelve months
 
-Koinome is a part-time project, worked a few hours a week. Months may slip; the sequence will not.
+Koinome is a part-time project, worked in honest bursts rather than steady hours. The calendar estimates below are indicative; the sequence and the gates are binding. The roadmap pivots on the one segment no burst of effort can compress: the thirty-day daily-use bar of §8. Everything before that bar exists to start its clock, the clock window itself is reserved for work that needs calendar time rather than build time, and everything after is unlocked by the release.
 
-**Months 0 to 1: Foundation.** Repository published under the Koinome name with history preserved. Apache-2.0 and DCO in place, security.txt live, package names claimed by publishing the real CLI skeleton. Corpus format v0: manifest, six record types, PROV-mapped frontmatter, inert ODRL rights metadata, JSON Schemas.
+**Foundation (month 0 — done).** Repository published under the Koinome name with history preserved. Apache-2.0 and DCO in place, security.txt live, package names claimed by publishing the real CLI skeleton. Corpus format v0 phases 1–3: manifest, six record types, PROV-mapped frontmatter, inert ODRL rights metadata, JSON Schemas.
 
-**Months 1 to 4: The unit.** Validator and CLI core. MCP server: scoped context resources and proposal-flow tools. Daily dogfooding begins on the project's own corpus and the author's personal corpora, with a running friction log.
+**Pre-clock: the unit at daily-driver quality (months 1 to 4, indicative).** Everything that gates the start of the thirty-day clock, in dependency order. The transaction executor lands first, vendored under attribution from claude-obsidian's MIT-licensed engine ([plan](plans/open/vendor-transaction-engine.md)) and kept inert, so the proposal flow is designed against the executor that will ship rather than retrofitted onto it. MCP contract design starts immediately after, with its supporting reading (the MCP specification, the prompt-injection literature) pulled forward, because contract design is the slowest work on this path and its start date is the schedule's biggest lever. The validator and CLI core harden through daily dogfooding on the project's own corpus and the author's corpora, with a running friction log. The skills move from intent prompts to procedures ([plan](plans/open/skills-hardening.md)); this is not polish — a skill that needs a strong model to improvise is a daily-driver defect, and the weak-model onboarding test is its acceptance gate. Finally, a PROV/ODRL verification pass — reading the standards against the shipped frontmatter — is release-blocking: a mapping error costs an evening now and a format break after v0.1.
 
-**Months 4 to 6: Prove and release.** The thirty-day daily-use quality bar for v0.1. Example corpus polished; the demo recorded. Public release, accompanied by the first essay: the single-principal claim, in full.
+**The clock window: prove and release (months 4 to 6, indicative).** The thirty-day daily-use bar of §8 starts only when the pre-clock list is done, and its start date *is* the release date. Dogfooding is calendar time, not build time, so the window carries the work that writes well while waiting: the README rewritten in user register ([plan](plans/open/readme-user-register.md)), the install guide with a timed fifteen-minute path ([plan](plans/open/install-guide.md)), the example corpus polished, the demo recorded, and the first essay — the single-principal claim, in full. Public release when the bar is met. Not demos. Not tests.
 
-**Months 6 to 9: Iterate, and design the operations.** Friction-driven changes only. A handful of early users invited; time-to-value measured directly against the fifteen-minute target. The cross-corpus operations RFC published: operation semantics, plan and receipt schemas. Benchmark harness built.
+**Post-release: iterate, and design the operations (months 6 to 9, indicative).** Friction-driven changes only. A handful of early users invited; time-to-value measured directly against the fifteen-minute target, and the documentation and skill work their friction generates is budgeted as real hours rather than absorbed. The cross-corpus operations RFC published: operation semantics, plan and receipt schemas. Benchmark v0 is defined narrowly here so it cannot balloon: integrity metrics on the author's own corpora, public harness code, published results — not a leaderboard reproduction.
 
-**Months 9 to 12: The first operation, and the claim made executable.** The first cross-corpus operation ships: agent-mediated selective **share** between two corpora operated by the same person. One operator, one machine, no accounts, no server, and quite possibly more than one principal, because one professional's corpora usually answer to more than one owner. The complete lifecycle: intent, discovery, plan, policy, approval, execution, receipt. Benchmark results published with the harness. The next year's shape decided from evidence.
+**The first operation (months 9 to 12, indicative).** The first cross-corpus operation ships: agent-mediated selective **share** between two corpora operated by the same person. One operator, one machine, no accounts, no server, and quite possibly more than one principal, because one professional's corpora usually answer to more than one owner. The complete lifecycle: intent, discovery, plan, policy, approval, execution, receipt. Scope is anchored to the demo already written in §8 — exactly that demo, nothing more. Benchmark results published with the harness. The next year's shape decided from evidence.
 
 ## 12. How to judge this project
 
