@@ -1,0 +1,46 @@
+name: examples-check
+
+# The reference corpora under examples/ are committed build output. Building and
+# checking them in the same CI run on the same day cannot catch a generator that
+# depends on the wall clock (the MOC freshness bug: created/updated stamped with
+# today's date). This job runs the read-only `koinome check` against the
+# *committed* corpora without rebuilding them — including on a daily schedule, so
+# clock-dependent drift surfaces on its own even with no new commits.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * *" # daily at 06:17 UTC
+  workflow_dispatch:
+
+jobs:
+  examples-check:
+    name: check committed reference corpora
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check committed corpora without rebuilding
+        run: |
+          set -uo pipefail
+          rc=0
+          for corpus in examples/software-project examples/consulting-engagement examples/research-project; do
+            echo "== koinome check $corpus =="
+            if ! uv run ./koinome-cli check "$corpus"; then
+              echo "::error::$corpus failed conformance — committed output is stale or the generator drifted"
+              rc=1
+            fi
+          done
+          exit "$rc"
