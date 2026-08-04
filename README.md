@@ -22,6 +22,14 @@ No accounts. No server. No telemetry.
 koinome new --name my-work --path ~/my-work
 ```
 
+Or, when you already know the layout, declare the domains up front:
+
+```bash
+koinome new --name my-work --path ~/my-work \
+  --domain 10-projects=projects \
+  --domain 20-governance=governance
+```
+
 Open the corpus in your agent and run the `koinome-init` skill. From then on, the loop:
 
 1. **The agent reads before acting.** The March decision, the constraint, the dead end: already in context. The re-explaining stops.
@@ -69,7 +77,7 @@ Requires Python 3.10+ and PyYAML. Then open the corpus in your agent and run `ko
 4. **Provenance is enforced.** Derived pages cite their sources or the validator rejects them.
 5. **Sensitive boundaries are physical.** Keep sensitive material in a separate private corpus on a path no agent reaches.
 6. **No accounts, no telemetry.** Individual use is account-free forever, and nothing phones home. Not opt-out. None.
-7. **Complete and free.** The individual corpus tooling is a finished local-first product under Apache-2.0. Not a trial, not a limited edition, not a funnel.
+7. **Complete, free and open-source.** The individual corpus tooling is a finished local-first product under Apache-2.0. Not a trial, not a limited edition, not a funnel.
 
 ## Status
 

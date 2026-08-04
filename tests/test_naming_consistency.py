@@ -72,6 +72,11 @@ def test_readme_states_free_open_source_commitment():
 
 
 def test_readme_states_current_scope():
-    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "one corpus at a time" in readme.lower() or "one at a time" in readme.lower()
-    assert "cross-corpus" in readme.lower()
+    # Product decision (2026-08-02): the messaging widened to advertise governed
+    # cross-corpus operations, so the README no longer constrains itself to the
+    # old "one corpus at a time" framing. The scope claim we now hold the README
+    # to: it presents the corpus as the unit of ownership AND advertises
+    # cross-corpus operations. See docs/STRATEGY.md.
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8").lower()
+    assert "corpus" in readme and "corpora" in readme
+    assert "cross-corpus" in readme
