@@ -1,3 +1,3 @@
-(A) 2026-07-12 Set the git remote and push the first commit +engagement @corpus
-(B) 2026-07-12 Install the sync timer if you want transparent git sync, see docs/SETUP.md +engagement @corpus
-(C) 2026-07-12 Replace placeholder summaries in any imported notes +engagement @corpus
+(A) 2026-08-02 Set the git remote and push the first commit +engagement @corpus
+(B) 2026-08-02 Install the sync timer if you want transparent git sync, see docs/SETUP.md +engagement @corpus
+(C) 2026-08-02 Replace placeholder summaries in any imported notes +engagement @corpus

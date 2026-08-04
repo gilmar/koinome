@@ -14,6 +14,7 @@ Requires: PyYAML.
 """
 
 import json
+import re
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -109,6 +110,41 @@ def home_body(domain_files, home_domain):
     return "\n".join(lines) + "\n"
 
 
+_CREATED_RE = re.compile(r"^created: .+$", re.MULTILINE)
+_UPDATED_RE = re.compile(r"^updated: .+$", re.MULTILINE)
+
+
+def _fm_date(text, field):
+    m = re.search(rf"^{field}: (.+)$", text, re.MULTILINE)
+    return m.group(1) if m else None
+
+
+def _without_dates(text):
+    return _UPDATED_RE.sub("updated:", _CREATED_RE.sub("created:", text))
+
+
+def reconcile_dates(path, content):
+    """Keep a MOC's dates honest across regenerations.
+
+    `content` is freshly generated with today's date in both `created` and
+    `updated`. A MOC is created once, so preserve an existing `created` verbatim;
+    and move `updated` to today only when the rest of the file actually changed.
+    On first generation (no file yet) the content is returned unchanged. This
+    makes `--check` a claim about content rather than the calendar, and keeps a
+    plain `gen_mocs.py` run idempotent from one day to the next.
+    """
+    if not path.exists():
+        return content
+    old = path.read_text(encoding="utf-8")
+    created = _fm_date(old, "created")
+    if created:
+        content = _CREATED_RE.sub(lambda _: f"created: {created}", content, count=1)
+    updated = _fm_date(old, "updated")
+    if updated and _without_dates(old) == _without_dates(content):
+        content = _UPDATED_RE.sub(lambda _: f"updated: {updated}", content, count=1)
+    return content
+
+
 def main(argv):
     check = "--check" in argv
     if not DOMAINS:
@@ -146,6 +182,7 @@ def main(argv):
 
     changed = []
     for path, content in planned.items():
+        content = reconcile_dates(path, content)
         old = path.read_text(encoding="utf-8") if path.exists() else None
         if old != content:
             changed.append(path.relative_to(CORPUS_ROOT))
